@@ -65,5 +65,25 @@ button:hover {
 
 .roma-miss .typed,
 .roma-miss .rest {
+
+  .flash {
+  animation: flash 0.3s ease;
+}
+
+@keyframes flash {
+  0% {
+    transform: scale(1);
+    color: #fff;
+  }
+  50% {
+    transform: scale(1.2);
+    color: #ffff66;
+  }
+  100% {
+    transform: scale(1);
+    color: #fff;
+  }
+}
+
   color: #f44336;
 }
