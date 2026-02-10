@@ -212,11 +212,18 @@ document.addEventListener("keydown", (e) => {
     updateRomajiView();
 
     if (typedIndex === romaji.length) {
-      score++;
-      scoreElem.textContent = score;
-      playClearSound();
-      setTimeout(setNewWord, 200);
-    }
+  score++;
+  scoreElem.textContent = score;
+  playClearSound();
+
+  romaElem.classList.add("flash");
+  setTimeout(() => {
+    romaElem.classList.remove("flash");
+  }, 300);
+
+  setTimeout(setNewWord, 200);
+}
+
   } else {
     playMissSound();
   }
