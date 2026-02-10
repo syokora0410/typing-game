@@ -101,21 +101,24 @@ function playClearSound() {
 
   const now = audioCtx.currentTime;
 
-  const osc1 = audioCtx.createOscillator();
-  const gain1 = audioCtx.createGain();
+  const notes = [600, 800, 1100]; // 上昇音階
 
-  osc1.type = "triangle";
-  osc1.frequency.setValueAtTime(600, now);
-  osc1.frequency.linearRampToValueAtTime(900, now + 0.15);
+  notes.forEach((freq, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
 
-  gain1.gain.setValueAtTime(0.2, now);
-  gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, now + i * 0.1);
 
-  osc1.connect(gain1);
-  gain1.connect(audioCtx.destination);
+    gain.gain.setValueAtTime(0.25, now + i * 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.2);
 
-  osc1.start(now);
-  osc1.stop(now + 0.25);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start(now + i * 0.1);
+    osc.stop(now + i * 0.1 + 0.2);
+  });
 }
 
 // ===== スタート =====
