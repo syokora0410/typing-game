@@ -75,8 +75,6 @@ function playPopSound() {
   osc2.stop(now + 0.05);
 }
 
-}
-
 // ===== スタート =====
 startBtn.addEventListener("click", startGame);
 retryBtn.addEventListener("click", startGame);
