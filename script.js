@@ -36,21 +36,45 @@ let timerId = null;
 // ===== Audio =====
 let audioCtx = null;
 
-function playSound(freq, duration, type = "sine", volume = 0.1) {
+function playPopSound() {
   if (!audioCtx) return;
 
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
+  const now = audioCtx.currentTime;
 
-  osc.type = type;
-  osc.frequency.value = freq;
-  gain.gain.value = volume;
+  // メイン音
+  const osc1 = audioCtx.createOscillator();
+  const gain1 = audioCtx.createGain();
 
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
+  osc1.type = "triangle";
+  osc1.frequency.setValueAtTime(700, now);
+  osc1.frequency.linearRampToValueAtTime(900, now + 0.08);
 
-  osc.start();
-  osc.stop(audioCtx.currentTime + duration);
+  gain1.gain.setValueAtTime(0.2, now);
+  gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+  osc1.connect(gain1);
+  gain1.connect(audioCtx.destination);
+
+  osc1.start(now);
+  osc1.stop(now + 0.1);
+
+  // 軽いクリック音（重ねる）
+  const osc2 = audioCtx.createOscillator();
+  const gain2 = audioCtx.createGain();
+
+  osc2.type = "square";
+  osc2.frequency.setValueAtTime(1200, now);
+
+  gain2.gain.setValueAtTime(0.05, now);
+  gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+  osc2.connect(gain2);
+  gain2.connect(audioCtx.destination);
+
+  osc2.start(now);
+  osc2.stop(now + 0.05);
+}
+
 }
 
 // ===== スタート =====
@@ -140,7 +164,7 @@ document.addEventListener("keydown", (e) => {
 
   if (key === romaji[typedIndex]) {
     typedIndex++;
-    playSound(900, 0.08, "triangle");
+    playPopSound();
     updateRomajiView();
 
     if (typedIndex === romaji.length) {
