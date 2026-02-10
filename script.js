@@ -34,9 +34,11 @@ let time = 30;
 let timerId = null;
 
 // ===== Audio =====
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioCtx = null;
 
 function playSound(freq, duration, type = "sine", volume = 0.1) {
+  if (!audioCtx) return;
+
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
 
@@ -56,7 +58,13 @@ startBtn.addEventListener("click", startGame);
 retryBtn.addEventListener("click", startGame);
 
 function startGame() {
-  audioCtx.resume(); // 音対策
+
+  // 初回だけAudioContext作る
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  audioCtx.resume();
 
   startScreen.classList.add("hidden");
   resultScreen.classList.add("hidden");
