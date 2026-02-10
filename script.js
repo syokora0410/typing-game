@@ -101,7 +101,7 @@ function playClearSound() {
 
   const now = audioCtx.currentTime;
 
-  const notes = [600, 800, 1100]; // 上昇音階
+  const notes = [600, 800, 1400]; // 上昇音階
 
   notes.forEach((freq, i) => {
     const osc = audioCtx.createOscillator();
