@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background: #000;
+  color: #fff;
+  font-family: sans-serif;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 画面共通 */
+.hidden {
+  display: none;
+}
+
+/* スタート画面 */
+#start-screen {
+  text-align: center;
+}
+
+#start-screen h1 {
+  font-size: 48px;
+  margin-bottom: 40px;
+}
+
+button {
+  font-size: 20px;
+  padding: 12px 36px;
+  border-radius: 6px;
+  border: none;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #444;
+}
+
+/* ゲーム画面 */
+#game-screen {
+  text-align: center;
+}
+
+/* ステータス */
+.status {
+  display: flex;
+  justify-content: space-between;
+  width: 320px;
+  margin: 0 auto 40px;
+  font-size: 18px;
+}
+
+/* 日本語 */
+.jp-text {
+  font-size: 40px;
+}
+
+/* ローマ字 */
+.romaji-text {
+  font-size: 56px;
+  margin-top: 20px;
+  letter-spacing: 4px;
+}
+
+/* 正解 */
+.typed {
+  color: #4caf50;
+}
+
+/* 未入力 */
+.rest {
+  color: #aaa;
+}
+
+/* ミス */
+.roma-miss .typed,
+.roma-miss .rest {
+  color: #f44336;
+}
+
+#result-screen {
+  text-align: center;
+}
