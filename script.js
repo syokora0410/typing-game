@@ -75,6 +75,49 @@ function playPopSound() {
   osc2.stop(now + 0.05);
 }
 
+function playMissSound() {
+  if (!audioCtx) return;
+
+  const now = audioCtx.currentTime;
+
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = "sawtooth";
+  osc.frequency.setValueAtTime(200, now);
+  osc.frequency.linearRampToValueAtTime(150, now + 0.1);
+
+  gain.gain.setValueAtTime(0.15, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start(now);
+  osc.stop(now + 0.15);
+}
+function playClearSound() {
+  if (!audioCtx) return;
+
+  const now = audioCtx.currentTime;
+
+  const osc1 = audioCtx.createOscillator();
+  const gain1 = audioCtx.createGain();
+
+  osc1.type = "triangle";
+  osc1.frequency.setValueAtTime(600, now);
+  osc1.frequency.linearRampToValueAtTime(900, now + 0.15);
+
+  gain1.gain.setValueAtTime(0.2, now);
+  gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+  osc1.connect(gain1);
+  gain1.connect(audioCtx.destination);
+
+  osc1.start(now);
+  osc1.stop(now + 0.25);
+}
+
 // ===== スタート =====
 startBtn.addEventListener("click", startGame);
 retryBtn.addEventListener("click", startGame);
@@ -168,10 +211,10 @@ document.addEventListener("keydown", (e) => {
     if (typedIndex === romaji.length) {
       score++;
       scoreElem.textContent = score;
-      playPopSound();
+      playClearSound();
       setTimeout(setNewWord, 200);
     }
   } else {
-    playPopSound();
+    playMissSound();
   }
 });
