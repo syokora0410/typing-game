@@ -140,7 +140,7 @@ document.addEventListener("keydown", (e) => {
 
   if (key === romaji[typedIndex]) {
     typedIndex++;
-    playSound(600, 0.05, "square", 0.05);
+    playSound(900, 0.08, "triangle");
     updateRomajiView();
 
     if (typedIndex === romaji.length) {
@@ -150,6 +150,6 @@ document.addEventListener("keydown", (e) => {
       setTimeout(setNewWord, 200);
     }
   } else {
-    playSound(200, 0.15, "sawtooth", 0.07);
+    playSound(300, 0.12, "square");
   }
 });
