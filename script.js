@@ -170,10 +170,10 @@ document.addEventListener("keydown", (e) => {
     if (typedIndex === romaji.length) {
       score++;
       scoreElem.textContent = score;
-      playSound(900, 0.1, "triangle", 0.1);
+      playPopSound();
       setTimeout(setNewWord, 200);
     }
   } else {
-    playSound(300, 0.12, "square");
+    playPopSound();
   }
 });
