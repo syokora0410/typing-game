@@ -1,3 +1,22 @@
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playSound(freq, duration, type = "sine", volume = 0.1) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = type;
+  osc.frequency.value = freq;
+
+  gain.gain.value = volume;
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+
 // ===== 要素取得 =====
 const startBtn = document.getElementById("start-btn");
 const startScreen = document.getElementById("start-screen");
@@ -32,6 +51,7 @@ let timerId = null;
 startBtn.addEventListener("click", startGame);
 
 function startGame() {
+  audioCtx.resume();
   // 画面切り替え
   startScreen.classList.add("hidden");
   gameScreen.classList.remove("hidden");
@@ -122,15 +142,21 @@ document.addEventListener("keydown", (e) => {
   if (typedIndex >= romaji.length) return;
 
   if (key === romaji[typedIndex]) {
+   playSound(600, 0.05, "square", 0.05);
     typedIndex++;
     updateRomajiView();
 
     if (typedIndex === romaji.length) {
+      playSound(800, 0.1, "triangle", 0.1);
+      setTimeout(() => {
+      playSound(1000, 0.1, "triangle", 0.1);
+      } ,100);
       score++;
       scoreElem.textContent = score;
       setTimeout(setNewWord, 200);
     }
   } else {
+  playSound(200, 0.15, "sawtooth", 0.07);
     showRomaMiss();
   }
 });
