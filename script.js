@@ -96,9 +96,9 @@ function endGame() {
   finalScoreElem.textContent = score;
 
   let rank = "C";
-  if (score >= 5) rank = "B";
-  if (score >= 10) rank = "A";
-  if (score >= 20) rank = "S";
+  if (score >= 10) rank = "B";
+  if (score >= 20) rank = "A";
+  if (score >= 30) rank = "S";
 
   rankElem.textContent = "ランク: " + rank;
 }
