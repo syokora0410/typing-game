@@ -9,30 +9,31 @@
 
   <!-- スタート画面 -->
   <div id="start-screen">
-    <h1>typing game</h1>
+    <h1>タイピングゲーム</h1>
     <button id="start-btn">スタート</button>
   </div>
 
   <!-- ゲーム画面 -->
   <div id="game-screen" class="hidden">
-    <div class="status">
-      <div>スコア: <span id="score">0</span></div>
-      <div>残り時間: <span id="time">30</span>s</div>
-    </div>
+    <p>スコア: <span id="score">0</span></p>
+    <p>残り時間: <span id="time">30</span> 秒</p>
 
-    <div id="jp" class="jp-text"></div>
-    <div id="romaji" class="romaji-text"></div>
+    <h2 id="jp"></h2>
+    <h3 id="romaji"></h3>
   </div>
 
   <!-- リザルト画面 -->
   <div id="result-screen" class="hidden">
-    <h1>RESULT</h1>
-    <div class="result-score">
-      スコア: <span id="final-score"></span>
-    </div>
-    <div id="rank"></div>
+    <h2>結果発表</h2>
+    <p>スコア: <span id="final-score"></span></p>
+    <p id="rank"></p>
     <button id="retry-btn">もう一回</button>
   </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
 
   <script src="script.js"></script>
 </body>
