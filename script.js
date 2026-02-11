@@ -23,7 +23,7 @@ const words = [
   { jp: "バナナ", romaji: "banana" },
   { jp: "ショコラ", romaji: "syokora" },
   { jp: "ラーメン", romaji: "ra-men" },
-  { jp: "お寿司", romaji: "osusi" }
+  { jp: "おすし", romaji: "osusi" }
 ];
 
 // ===== 状態 =====
@@ -36,78 +36,42 @@ let timerId = null;
 // ===== Audio =====
 let audioCtx = null;
 
-// 通常入力音
-function playPopSound() {
-  if (!audioCtx) return;
-
-  const now = audioCtx.currentTime;
-
+function playTypeSound() {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
 
   osc.type = "triangle";
-  osc.frequency.setValueAtTime(700, now);
-  osc.frequency.linearRampToValueAtTime(900, now + 0.08);
+  osc.frequency.value = 600;
 
-  gain.gain.setValueAtTime(0.2, now);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
 
   osc.connect(gain);
   gain.connect(audioCtx.destination);
 
-  osc.start(now);
-  osc.stop(now + 0.1);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.1);
 }
 
-// ミス音
-function playMissSound() {
-  if (!audioCtx) return;
-
-  const now = audioCtx.currentTime;
-
+function playClearSound() {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
 
-  osc.type = "sawtooth";
-  osc.frequency.setValueAtTime(200, now);
-  osc.frequency.linearRampToValueAtTime(150, now + 0.1);
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+  osc.frequency.linearRampToValueAtTime(900, audioCtx.currentTime + 0.2);
 
-  gain.gain.setValueAtTime(0.15, now);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+  gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
 
   osc.connect(gain);
   gain.connect(audioCtx.destination);
 
-  osc.start(now);
-  osc.stop(now + 0.15);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.3);
 }
 
-// クリア音（3音上昇）
-function playClearSound() {
-  if (!audioCtx) return;
-
-  const now = audioCtx.currentTime;
-  const notes = [600, 900, 1400];
-
-  notes.forEach((freq, i) => {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(freq, now + i * 0.1);
-
-    gain.gain.setValueAtTime(0.25, now + i * 0.1);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.2);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.start(now + i * 0.1);
-    osc.stop(now + i * 0.1 + 0.2);
-  });
-}
-
-// ===== スタート =====
+// ===== ゲーム開始 =====
 startBtn.addEventListener("click", startGame);
 retryBtn.addEventListener("click", startGame);
 
@@ -116,8 +80,6 @@ function startGame() {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   }
   audioCtx.resume();
-
-  resultScreen.classList.remove("fade-in");
 
   startScreen.classList.add("hidden");
   resultScreen.classList.add("hidden");
@@ -136,14 +98,10 @@ function startGame() {
 // ===== タイマー =====
 function startTimer() {
   clearInterval(timerId);
-
   timerId = setInterval(() => {
     time--;
     timeElem.textContent = time;
-
-    if (time <= 0) {
-      endGame();
-    }
+    if (time <= 0) endGame();
   }, 1000);
 }
 
@@ -153,9 +111,9 @@ function endGame() {
 
   gameScreen.classList.add("hidden");
   resultScreen.classList.remove("hidden");
-  resultScreen.classList.add("fade-in");
 
   finalScoreElem.textContent = score;
+  resultScreen.classList.add("fade-in");
 
   let rank = "C";
   if (score >= 10) rank = "B";
@@ -180,7 +138,7 @@ function updateRomajiView() {
 
   romaElem.innerHTML =
     `<span class="typed">${typed}</span>` +
-    `<span class="rest">${rest}</span>`;
+    `<span>${rest}</span>`;
 }
 
 // ===== キー入力 =====
@@ -194,31 +152,21 @@ document.addEventListener("keydown", (e) => {
 
   if (key === romaji[typedIndex]) {
     typedIndex++;
-    playPopSound();
+    playTypeSound();
     updateRomajiView();
 
     if (typedIndex === romaji.length) {
       score++;
       scoreElem.textContent = score;
 
-      // スコア跳ね
       scoreElem.classList.add("pop");
-      setTimeout(() => {
-        scoreElem.classList.remove("pop");
-      }, 200);
+      setTimeout(() => scoreElem.classList.remove("pop"), 200);
 
-      // クリア音
-      playClearSound();
-
-      // 文字フラッシュ
       romaElem.classList.add("flash");
-      setTimeout(() => {
-        romaElem.classList.remove("flash");
-      }, 300);
+      setTimeout(() => romaElem.classList.remove("flash"), 300);
 
-      setTimeout(setNewWord, 200);
+      playClearSound();
+      setTimeout(setNewWord, 300);
     }
-  } else {
-    playMissSound();
   }
 });
