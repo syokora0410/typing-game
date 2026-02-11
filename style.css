@@ -1,30 +1,42 @@
-/* ===== 全体 ===== */
 body {
-  margin: 0;
-  height: 100vh;
   background: #000;
   color: #fff;
   font-family: sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  margin: 0;
+  padding: 50px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #555;
 }
 
 .hidden {
   display: none;
 }
 
-#start-screen,
-#game-screen,
-#result-screen {
-  text-align: center;
+#jp {
+  font-size: 40px;
+  margin-top: 40px;
 }
 
-/* ===== タイトル ===== */
-h1 {
-  font-size: 48px;
-  margin-bottom: 40px;
-  letter-spacing: 4px;
+#romaji {
+  font-size: 32px;
+  letter-spacing: 2px;
+}
+
+/* 打った部分 */
+.typed {
+  color: red;
 }
 
 /* スコア跳ね */
@@ -49,7 +61,7 @@ h1 {
   100% { color: #fff; }
 }
 
-/* リザルトフェード */
+/* リザルトアニメ */
 .fade-in {
   animation: fadeIn 0.5s ease;
 }
@@ -59,90 +71,3 @@ h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== ボタン ===== */
-button {
-  font-size: 20px;
-  padding: 12px 36px;
-  border-radius: 6px;
-  border: none;
-  background: #333;
-  color: #fff;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  background: #444;
-  transform: scale(1.05);
-}
-
-/* ===== ステータス表示 ===== */
-.status {
-  display: flex;
-  justify-content: space-between;
-  width: 320px;
-  margin: 0 auto 40px;
-  font-size: 18px;
-}
-
-/* ===== 日本語 ===== */
-.jp-text {
-  font-size: 40px;
-  margin-bottom: 10px;
-}
-
-/* ===== ローマ字 ===== */
-.romaji-text {
-  font-size: 56px;
-  margin-top: 20px;
-  letter-spacing: 4px;
-}
-
-/* 打った部分 */
-.typed {
-  color: #4caf50;
-}
-
-/* 残り部分 */
-.rest {
-  color: #aaa;
-}
-
-/* ===== クリア時フラッシュ ===== */
-.flash span {
-  animation: flash 0.3s ease;
-}
-
-@keyframes flash {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.25);
-    color: #ffff66;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* ===== リザルト画面 ===== */
-.result-score {
-  font-size: 28px;
-  margin: 20px 0;
-}
-
-#rank {
-  font-size: 24px;
-  margin-bottom: 30px;
-}
-
-.pop {
-  animation: pop 0.2s ease;
-}
-
-@keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.4); }
-  100% { transform: scale(1); }
-}
