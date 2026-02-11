@@ -27,6 +27,38 @@ h1 {
   letter-spacing: 4px;
 }
 
+/* スコア跳ね */
+.pop {
+  animation: popAnim 0.2s ease;
+}
+
+@keyframes popAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+/* 単語フラッシュ */
+.flash {
+  animation: flashAnim 0.3s ease;
+}
+
+@keyframes flashAnim {
+  0% { color: #fff; }
+  50% { color: #00ffcc; }
+  100% { color: #fff; }
+}
+
+/* リザルトフェード */
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ===== ボタン ===== */
 button {
   font-size: 20px;
