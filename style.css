@@ -1,73 +1,79 @@
+/* ===== 全体 ===== */
 body {
-  background: #000;
-  color: #fff;
-  font-family: sans-serif;
-  text-align: center;
   margin: 0;
-  padding: 50px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  background: #333;
+  background: black;
   color: white;
-  border: none;
-  cursor: pointer;
+  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  text-align: center;
 }
 
-button:hover {
-  background: #555;
+/* 画面共通 */
+.screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .hidden {
   display: none;
 }
 
-#jp {
-  font-size: 40px;
-  margin-top: 40px;
+/* ===== タイトル ===== */
+.title {
+  font-size: 64px;
+  font-weight: bold;
+  margin-bottom: 40px;
 }
 
-#romaji {
-  font-size: 32px;
-  letter-spacing: 2px;
+/* ===== ボタン ===== */
+.main-btn {
+  padding: 15px 40px;
+  font-size: 24px;
+  border: none;
+  border-radius: 12px;
+  background: #444;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* 打った部分 */
+.main-btn:hover {
+  background: #666;
+}
+
+/* ===== ゲーム上部バー ===== */
+.top-bar {
+  position: absolute;
+  top: 40px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 28px;
+}
+
+/* ===== 単語表示 ===== */
+.word-area {
+  margin-top: 100px;
+}
+
+.jp-word {
+  font-size: 64px;
+  margin-bottom: 30px;
+}
+
+.romaji-word {
+  font-size: 80px;
+  letter-spacing: 5px;
+}
+
+/* タイプ済み */
 .typed {
-  color: green;
+  color: #4CAF50;  /* 緑 */
 }
 
-/* スコア跳ね */
-.pop {
-  animation: popAnim 0.2s ease;
+/* まだ */
+.rest {
+  color: #aaa;
 }
-
-@keyframes popAnim {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.4); }
-  100% { transform: scale(1); }
-}
-
-/* 単語フラッシュ */
-.flash {
-  animation: flashAnim 0.3s ease;
-}
-
-@keyframes flashAnim {
-  0% { color: #fff; }
-  50% { color: #00ffcc; }
-  100% { color: #fff; }
-}
-
-/* リザルトアニメ */
-.fade-in {
-  animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
