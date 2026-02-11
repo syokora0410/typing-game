@@ -1,3 +1,4 @@
+/* ===== 全体 ===== */
 body {
   margin: 0;
   height: 100vh;
@@ -19,11 +20,14 @@ body {
   text-align: center;
 }
 
+/* ===== タイトル ===== */
 h1 {
   font-size: 48px;
   margin-bottom: 40px;
+  letter-spacing: 4px;
 }
 
+/* ===== ボタン ===== */
 button {
   font-size: 20px;
   padding: 12px 36px;
@@ -32,58 +36,71 @@ button {
   background: #333;
   color: #fff;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 button:hover {
   background: #444;
+  transform: scale(1.05);
 }
 
+/* ===== ステータス表示 ===== */
 .status {
   display: flex;
   justify-content: space-between;
   width: 320px;
   margin: 0 auto 40px;
+  font-size: 18px;
 }
 
+/* ===== 日本語 ===== */
 .jp-text {
   font-size: 40px;
+  margin-bottom: 10px;
 }
 
+/* ===== ローマ字 ===== */
 .romaji-text {
   font-size: 56px;
   margin-top: 20px;
   letter-spacing: 4px;
 }
 
+/* 打った部分 */
 .typed {
   color: #4caf50;
 }
 
+/* 残り部分 */
 .rest {
   color: #aaa;
 }
 
-.roma-miss .typed,
-.roma-miss .rest {
-
-  .flash {
+/* ===== クリア時フラッシュ ===== */
+.flash span {
   animation: flash 0.3s ease;
 }
 
 @keyframes flash {
   0% {
     transform: scale(1);
-    color: #fff;
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.25);
     color: #ffff66;
   }
   100% {
     transform: scale(1);
-    color: #fff;
   }
 }
 
-  color: #f44336;
+/* ===== リザルト画面 ===== */
+.result-score {
+  font-size: 28px;
+  margin: 20px 0;
+}
+
+#rank {
+  font-size: 24px;
+  margin-bottom: 30px;
 }
