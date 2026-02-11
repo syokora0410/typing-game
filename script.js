@@ -15,15 +15,15 @@ const rankElem = document.getElementById("rank");
 
 // ===== 単語 =====
 const words = [
- { jp: "リンゴ", romaji: "ringo" },
- { jp: "ねこ", romaji: "neko" },  
- { jp: "いぬ", romaji: "inu" },   
- { jp: "みかん", romaji: "mikan" },   
- { jp: "ぶどう", romaji: "budou" },   
- { jp: "バナナ", romaji: "banana" },   
- { jp: "ショコラ", romaji: "syokora" },   
- { jp: "ラーメン", romaji: "ra-men" },   
- { jp: "お寿司", romaji: "osusi" }
+  { jp: "リンゴ", romaji: "ringo" },
+  { jp: "ねこ", romaji: "neko" },
+  { jp: "いぬ", romaji: "inu" },
+  { jp: "みかん", romaji: "mikan" },
+  { jp: "ぶどう", romaji: "budou" },
+  { jp: "バナナ", romaji: "banana" },
+  { jp: "ショコラ", romaji: "syokora" },
+  { jp: "ラーメン", romaji: "ra-men" },
+  { jp: "お寿司", romaji: "osusi" }
 ];
 
 // ===== 状態 =====
@@ -36,45 +36,30 @@ let timerId = null;
 // ===== Audio =====
 let audioCtx = null;
 
+// 通常入力音
 function playPopSound() {
   if (!audioCtx) return;
 
   const now = audioCtx.currentTime;
 
-  // メイン音
-  const osc1 = audioCtx.createOscillator();
-  const gain1 = audioCtx.createGain();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
 
-  osc1.type = "triangle";
-  osc1.frequency.setValueAtTime(700, now);
-  osc1.frequency.linearRampToValueAtTime(900, now + 0.08);
+  osc.type = "triangle";
+  osc.frequency.setValueAtTime(700, now);
+  osc.frequency.linearRampToValueAtTime(900, now + 0.08);
 
-  gain1.gain.setValueAtTime(0.2, now);
-  gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+  gain.gain.setValueAtTime(0.2, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
 
-  osc1.connect(gain1);
-  gain1.connect(audioCtx.destination);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
 
-  osc1.start(now);
-  osc1.stop(now + 0.1);
-
-  // 軽いクリック音（重ねる）
-  const osc2 = audioCtx.createOscillator();
-  const gain2 = audioCtx.createGain();
-
-  osc2.type = "square";
-  osc2.frequency.setValueAtTime(1200, now);
-
-  gain2.gain.setValueAtTime(0.05, now);
-  gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-
-  osc2.connect(gain2);
-  gain2.connect(audioCtx.destination);
-
-  osc2.start(now);
-  osc2.stop(now + 0.05);
+  osc.start(now);
+  osc.stop(now + 0.1);
 }
 
+// ミス音
 function playMissSound() {
   if (!audioCtx) return;
 
@@ -96,12 +81,13 @@ function playMissSound() {
   osc.start(now);
   osc.stop(now + 0.15);
 }
+
+// クリア音（3音上昇）
 function playClearSound() {
   if (!audioCtx) return;
 
   const now = audioCtx.currentTime;
-
-  const notes = [600, 800, 1400]; // 上昇音階
+  const notes = [600, 900, 1400];
 
   notes.forEach((freq, i) => {
     const osc = audioCtx.createOscillator();
@@ -126,13 +112,12 @@ startBtn.addEventListener("click", startGame);
 retryBtn.addEventListener("click", startGame);
 
 function startGame() {
-
-  // 初回だけAudioContext作る
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   }
-
   audioCtx.resume();
+
+  resultScreen.classList.remove("fade-in");
 
   startScreen.classList.add("hidden");
   resultScreen.classList.add("hidden");
@@ -168,6 +153,7 @@ function endGame() {
 
   gameScreen.classList.add("hidden");
   resultScreen.classList.remove("hidden");
+  resultScreen.classList.add("fade-in");
 
   finalScoreElem.textContent = score;
 
@@ -212,23 +198,26 @@ document.addEventListener("keydown", (e) => {
     updateRomajiView();
 
     if (typedIndex === romaji.length) {
-  score++;
-  scoreElem.textContent = score;
-     scoreElem.classList.add("pop");
+      score++;
+      scoreElem.textContent = score;
 
-setTimeout(() => {
-  scoreElem.classList.remove("pop");
-}, 200);
-  playClearSound();
+      // スコア跳ね
+      scoreElem.classList.add("pop");
+      setTimeout(() => {
+        scoreElem.classList.remove("pop");
+      }, 200);
 
-  romaElem.classList.add("flash");
-  setTimeout(() => {
-    romaElem.classList.remove("flash");
-  }, 300);
+      // クリア音
+      playClearSound();
 
-  setTimeout(setNewWord, 200);
-}
+      // 文字フラッシュ
+      romaElem.classList.add("flash");
+      setTimeout(() => {
+        romaElem.classList.remove("flash");
+      }, 300);
 
+      setTimeout(setNewWord, 200);
+    }
   } else {
     playMissSound();
   }
