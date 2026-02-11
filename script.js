@@ -214,11 +214,7 @@ document.addEventListener("keydown", (e) => {
     if (typedIndex === romaji.length) {
   score++;
   scoreElem.textContent = score;
-scoreElem.classList.add("pop");
 
-setTimeout(() => {
-  scoreElem.classList.remove("pop");
-}, 200);
   playClearSound();
 
   romaElem.classList.add("flash");
